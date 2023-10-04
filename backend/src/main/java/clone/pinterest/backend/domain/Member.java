@@ -2,8 +2,12 @@ package clone.pinterest.backend.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member implements Serializable{
+public class Member implements UserDetails {
 
     @Id
     private String id;
@@ -38,5 +42,40 @@ public class Member implements Serializable{
 
     @OneToOne(mappedBy = "writer")
     private CommentInPin comment;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Set.of(() -> "ROLE_USER");
+    }
+
+    @Override
+    public String getPassword() {
+        return pwd;
+    }
+
+    @Override
+    public String getUsername() {
+        return id;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 }
