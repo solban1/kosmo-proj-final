@@ -1,26 +1,25 @@
 package clone.pinterest.backend.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
-import java.util.Set;
 
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member implements UserDetails {
@@ -45,7 +44,11 @@ public class Member implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Set.of(() -> "ROLE_USER");
+        if (id.equals("admin")) {
+            return AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
+        } else {
+            return AuthorityUtils.createAuthorityList("ROLE_USER");
+        }
     }
 
     @Override
