@@ -2,6 +2,7 @@ package clone.pinterest.backend.domain;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member implements Serializable{
+public class Member implements Serializable {
 
     @Id
     private String id;
@@ -38,5 +40,8 @@ public class Member implements Serializable{
 
     @OneToOne(mappedBy = "writer")
     private CommentInPin comment;
+
+    @OneToMany(mappedBy = "id.member")
+    private List<Save> saves;
 
 }

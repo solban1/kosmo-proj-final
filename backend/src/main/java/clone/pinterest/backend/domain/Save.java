@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Save implements Serializable {
     @EmbeddedId
-    @Convert(converter = SaveIdConverter.class, attributeName = "pin")
     private SaveId id;
     // @Id
     // @ManyToOne
