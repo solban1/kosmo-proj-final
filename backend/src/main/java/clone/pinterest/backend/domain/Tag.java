@@ -8,20 +8,25 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(TagId.class)
 public class Tag implements Serializable {
     @Id
-    private String tag_name;
+    private String tagName;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "seq")
+    @JoinColumn(name = "pinSeq")
     private Pin pin;
+
+    // @EmbeddedId
+    // private TagId id;
 }
